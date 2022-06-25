@@ -2,6 +2,24 @@
 
 {% block body %}
 
-    {{ brukernavn }}
+    <script>
+
+        const request = fetch('{{ ajaxUrl }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                name: 'test',
+                email: 'test@test.com',
+                age: '28'
+            })
+        });
+
+        request.then(response => response.json())
+            .then(data => console.log(data));
+
+    </script>
 
 {% endblock %}

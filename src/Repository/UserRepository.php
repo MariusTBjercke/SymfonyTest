@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\UserIdNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -37,6 +40,20 @@ class UserRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function findByIdOrThrow(int $id): User
+    {
+        $user = $this->find($id);
+
+        if (!$user) {
+            throw new UserIdNotFoundException();
+        }
+
+        return $user;
     }
 
 //    /**
