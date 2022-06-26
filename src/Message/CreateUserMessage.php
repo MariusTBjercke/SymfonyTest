@@ -2,7 +2,7 @@
 
 namespace App\Message;
 
-final class UpdateUserMessage
+final class CreateUserMessage
 {
     private string $name;
     private string $email;

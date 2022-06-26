@@ -50,7 +50,7 @@ class UserRepository extends ServiceEntityRepository
         $user = $this->find($id);
 
         if (!$user) {
-            throw new UserIdNotFoundException();
+            throw new Exception('User not found');
         }
 
         return $user;

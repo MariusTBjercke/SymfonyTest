@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Message\UpdateUserMessage;
+use App\Message\CreateUserMessage;
 use App\Repository\UserRepository;
 use http\Client\Request;
 use HttpRequest;
@@ -42,13 +42,13 @@ class HomeController extends AbstractController
         $email = $content['email'];
         $age = $content['age'];
 
-        $envelope = $bus->dispatch(new UpdateUserMessage($name, $email, (int) $age));
+        $envelope = $bus->dispatch(new CreateUserMessage($name, $email, (int) $age));
 
         $handledStamp = $envelope->last(HandledStamp::class);
         $result = $handledStamp->getResult();
 
         $response = [
-            'status' => 'success',
+            'status' => $result ? 'success' : 'error',
             'message' => $content,
             'stamp_result' => $result,
             'requestUrl' => $reqUrl,

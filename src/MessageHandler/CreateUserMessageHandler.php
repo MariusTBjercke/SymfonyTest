@@ -3,11 +3,11 @@
 namespace App\MessageHandler;
 
 use App\Entity\User;
-use App\Message\UpdateUserMessage;
+use App\Message\CreateUserMessage;
 use App\Repository\UserRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class UpdateUserMessageHandler implements MessageHandlerInterface
+final class CreateUserMessageHandler implements MessageHandlerInterface
 {
     public UserRepository $userRepository;
 
@@ -16,7 +16,7 @@ final class UpdateUserMessageHandler implements MessageHandlerInterface
         $this->userRepository = $repository;
     }
 
-    public function __invoke(UpdateUserMessage $message): string
+    public function __invoke(CreateUserMessage $message): bool
     {
         $user = (new User())
             ->setName($message->getName())
@@ -25,6 +25,6 @@ final class UpdateUserMessageHandler implements MessageHandlerInterface
 
         $this->userRepository->add($user, true);
 
-        return "Svar fra handler";
+        return true;
     }
 }
