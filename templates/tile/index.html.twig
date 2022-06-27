@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<title>Tile index</title>
+
+{% block body %}
+    <h1>Tile index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>TemplatePath</th>
+                <th>ClassName</th>
+                <th>Options</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tile in tiles %}
+            <tr>
+                <td>{{ tile.id }}</td>
+                <td>{{ tile.title }}</td>
+                <td>{{ tile.templatePath }}</td>
+                <td>{{ tile.className }}</td>
+                <td>{{ tile.options ? tile.options|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('app_tile_show', {'id': tile.id}) }}">show</a>
+                    <a href="{{ path('app_tile_edit', {'id': tile.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tile_new') }}">Create new</a>
+{% endblock %}

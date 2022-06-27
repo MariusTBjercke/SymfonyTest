@@ -1,0 +1,57 @@
+<nav>
+    <div class="collapsed-navigation">
+        <div class="collapsed-navigation__content">
+            <div class="collapsed-navigation__close">
+                <i class="bi bi-x-circle"></i>
+            </div>
+            <div class="collapsed-navigation__menu-items">
+{#                {% for item in site.getPages %}#}
+{#                    {% if item.navigation %}#}
+{#                        {% if site.getCurrentUser.getLoggedIn and item.getHideWhenLoggedIn %}#}
+{#                        {% elseif site.getCurrentUser.getLoggedIn == false and item.getRequiresLogin %}#}
+{#                        {% else %}#}
+                            <a href="/home"
+                               class="collapsed-navigation__item">Home</a>
+                <a href="/forum"
+                   class="collapsed-navigation__item">Forum</a>
+{#                        {% endif %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+            </div>
+        </div>
+    </div>
+    <div class="main-navigation">
+        <div class="top-bar">
+            <div class="container">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+        <div class="container navigation-wrapper">
+            <div class="row">
+                <div class="col-10 col-md-4">
+                    <div class="top-logo"></div>
+                </div>
+                <div class="col-2 col-md-8">
+                    <div class="navigation">
+{#                        {% for item in site.getPages %}#}
+{#                            {% if item.navigation %}#}
+{#                                {% if site.getCurrentUser.getLoggedIn and item.getHideWhenLoggedIn %}#}
+{#                                {% elseif site.getCurrentUser.getLoggedIn == false and item.getRequiresLogin %}#}
+{#                                {% else %}#}
+                                    <a href="/home"
+                                       class="navigation__item">Home</a>
+                        <a href="/forum"
+                           class="navigation__item">Forum</a>
+{#                                {% endif %}#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+                    </div>
+                    <div class="navigation-wrapper__bars">
+                        <i class="bi bi-list"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

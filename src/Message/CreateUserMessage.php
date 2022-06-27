@@ -2,64 +2,88 @@
 
 namespace App\Message;
 
-final class CreateUserMessage
-{
-    private string $name;
+final class CreateUserMessage {
+    private string $username;
+    private string $password;
     private string $email;
-    private int $age;
+    private bool $loggedIn;
+    private bool $isAdmin;
 
-    public function __construct(string $name, string $email, int $age)
-    {
-        $this->name = $name;
+    public function __construct(string $name, string $password, string $email, bool $loggedIn, bool $isAdmin) {
+        $this->username = $name;
+        $this->password = $password;
         $this->email = $email;
-        $this->age = $age;
+        $this->loggedIn = $loggedIn;
+        $this->isAdmin = $isAdmin;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
-    {
-        return $this->name;
+    public function getUsername(): string {
+        return $this->username;
     }
 
     /**
-     * @param string $name
+     * @param string $username
      */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+    public function setUsername(string $username): void {
+        $this->username = $username;
     }
 
     /**
      * @return string
      */
-    public function getEmail(): string
-    {
+    public function getPassword(): string {
+        return $this->password;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void {
+        $this->password = $password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string {
         return $this->email;
     }
 
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
-    {
+    public function setEmail(string $email): void {
         $this->email = $email;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getAge(): int
-    {
-        return $this->age;
+    public function isLoggedIn(): bool {
+        return $this->loggedIn;
     }
 
     /**
-     * @param int $age
+     * @param bool $loggedIn
      */
-    public function setAge(int $age): void
-    {
-        $this->age = $age;
+    public function setLoggedIn(bool $loggedIn): void {
+        $this->loggedIn = $loggedIn;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param bool $isAdmin
+     */
+    public function setIsAdmin(bool $isAdmin): void {
+        $this->isAdmin = $isAdmin;
     }
 }

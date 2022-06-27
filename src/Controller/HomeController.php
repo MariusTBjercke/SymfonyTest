@@ -4,73 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Message\CreateUserMessage;
-use App\Repository\UserRepository;
-use http\Client\Request;
-use HttpRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Messenger\MessageBus;
-use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class HomeController extends AbstractController
-{
-    /**
-     * @Route("/", name="home")
-     */
-    public function index(SessionInterface $session): Response
-    {
-        return $this->render('home/home.html.twig', ['ajaxUrl' => $this->generateUrl('add_user', [], UrlGeneratorInterface::ABSOLUTE_URL)]);
+class HomeController extends AbstractController {
+    public function __construct() {
+        //
     }
 
     /**
-     * @Route("/api/add/user", name="add_user", methods={"POST"})
+     * @Route("/")
      */
-    public function addUser(MessageBusInterface $bus, \Symfony\Component\HttpFoundation\Request $request): JsonResponse
-    {
-        $isXML = $request->isXmlHttpRequest();
-        $reqUrl = $request->getRequestUri();
-        $content = json_decode($request->getContent(), true);
-
-        $name = $content['name'];
-        $email = $content['email'];
-        $age = $content['age'];
-
-        $envelope = $bus->dispatch(new CreateUserMessage($name, $email, (int) $age));
-
-        $handledStamp = $envelope->last(HandledStamp::class);
-        $result = $handledStamp->getResult();
-
-        $response = [
-            'status' => $result ? 'success' : 'error',
-            'message' => $content,
-            'stamp_result' => $result,
-            'requestUrl' => $reqUrl,
-            'isXML' => $isXML
-        ];
-
-        return new JsonResponse($response);
+    public function __invoke(): Response {
+        return $this->redirectToRoute('homepage');
     }
 
     /**
-     * @Route("/home/users", name="users")
+     * @Route("/home/{name}", name="homepage")
      */
-    public function getUsers(UserRepository $repository): JsonResponse
-    {
-        $users = $repository->findAll();
-
-        $response = [
-            'result' => 'OK',
-            'users' => $users,
-        ];
-
-        return new JsonResponse($response);
+    public function index($name = 'test'): Response {
+        return $this->render('pages/home/index.html.twig', [
+            'message' => "Hello $name!",
+        ]);
     }
-
 }

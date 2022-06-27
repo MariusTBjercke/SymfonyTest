@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<title>Page index</title>
+
+{% block body %}
+    <h1>Page index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Icon</th>
+                <th>Url</th>
+                <th>Template</th>
+                <th>Class</th>
+                <th>Navigation</th>
+                <th>RequiresLogin</th>
+                <th>HideWhenLoggedIn</th>
+                <th>TileOrder</th>
+                <th>Editable</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.name }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.description }}</td>
+                <td>{{ page.icon }}</td>
+                <td>{{ page.url }}</td>
+                <td>{{ page.template }}</td>
+                <td>{{ page.class }}</td>
+                <td>{{ page.navigation ? 'Yes' : 'No' }}</td>
+                <td>{{ page.requiresLogin ? 'Yes' : 'No' }}</td>
+                <td>{{ page.hideWhenLoggedIn ? 'Yes' : 'No' }}</td>
+                <td>{{ page.tileOrder }}</td>
+                <td>{{ page.editable ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_page_show', {'id': page.id}) }}">show</a>
+                    <a href="{{ path('app_page_edit', {'id': page.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_page_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["assets/*"],
+    },
+    "moduleResolution": "Node",
+    "typeRoots": [
+      "node_modules/@types", "assets/types"
+    ],
+    "resolveJsonModule": true,
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
