@@ -85,7 +85,14 @@ DOMReady(() => {
 
       let inputArr = [titleInput, contentInput];
 
-      ajaxPostJson(formData, inputArr, callback);
+      fetch("/forum/new-post", {
+        method: "POST",
+        body: formData,
+      }).then((r) => {
+        r.json().then((response) => {
+          console.log(response);
+        });
+      });
     });
   }
 });

@@ -1,4 +1,4 @@
-{#{% set user = site.getCurrentUser %}#}
+{# {% set user = site.getCurrentUser %} #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,15 +22,20 @@
 
 <main>
 
-    <article{% if css is defined %} class="{{ css }}"{% endif %}">
+    <article{% if css is defined %} class="{{ css }}"{% endif %} data-controller="hello">
         {% block maincontent %}
         {% endblock %}
+
+        <input type="text" data-hello-target="name">
+
+        <button data-action="click->hello#greet">click</button>
+
     </article>
 
 </main>
 
 {% include 'components/footer.html.twig' %}
 
-{#<script src="{{ site.getAsset('js/bundle.min.js') }}" defer></script>#}
+{# <script src="{{ site.getAsset('js/bundle.min.js') }}" defer></script> #}
 </body>
 </html>

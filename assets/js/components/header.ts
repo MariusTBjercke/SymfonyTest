@@ -33,6 +33,6 @@ DOMReady(() => {
       sessionStorage.setItem("navigation", navigation.classList.contains("collapsed-navigation_open").toString());
     }
 
-    buttons.forEach((btn) => btn.addEventListener("click", toggleNavigation));
+    buttons.forEach((btn: HTMLElement) => btn.addEventListener("click", toggleNavigation));
   }
 });
