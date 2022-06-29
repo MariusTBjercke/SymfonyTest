@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 
-<title>{% trans %}user.title{% endtrans %}</title>
+<title>User index</title>
 
 {% block body %}
-    <h1>{% trans %}user.title{% endtrans %}</h1>
+    <h1>User index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
                 <th>Password</th>
                 <th>Email</th>
                 <th>LoggedIn</th>
@@ -23,23 +25,25 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.loggedIn ? 'Yes' : 'No' }}</td>
                 <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
                 <td>{{ user.lastActivity }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="10">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

@@ -14,7 +14,7 @@ class HomeController extends AbstractController {
     }
 
     /**
-     * @Route("/")
+     * @Route("/", name="home_index")
      */
     public function __invoke(): Response {
         return $this->redirectToRoute('homepage');

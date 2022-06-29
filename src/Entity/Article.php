@@ -55,11 +55,6 @@ class Article {
     private string $date;
 
     /**
-     * @OneToMany(targetEntity="\App\Entity\Tile", mappedBy="article")
-     */
-    private mixed $tiles;
-
-    /**
      * @return string
      */
     public function getId(): string {
@@ -141,7 +136,7 @@ class Article {
      * @return string
      */
     public function getDate(): string {
-        return date("Y-m-d h:i:s", (int)$this->date);
+        return date('Y-m-d h:i:s', (int) $this->date);
     }
 
     /**
@@ -157,13 +152,14 @@ class Article {
         if ($time_difference < 1) {
             return 'less than 1 second ago';
         }
-        $condition = array(12 * 30 * 24 * 60 * 60 => 'year',
-                           30 * 24 * 60 * 60      => 'month',
-                           24 * 60 * 60           => 'day',
-                           60 * 60                => 'hour',
-                           60                     => 'minute',
-                           1                      => 'second'
-        );
+        $condition = [
+            12 * 30 * 24 * 60 * 60 => 'year',
+            30 * 24 * 60 * 60 => 'month',
+            24 * 60 * 60 => 'day',
+            60 * 60 => 'hour',
+            60 => 'minute',
+            1 => 'second',
+        ];
 
         foreach ($condition as $secs => $str) {
             $d = $time_difference / $secs;
@@ -177,28 +173,9 @@ class Article {
     }
 
     /**
-     * @return Tile
-     */
-    public function getTiles(): Tile
-    {
-        return $this->tiles;
-    }
-
-    /**
-     * @param Tile $tiles
-     * @return Article
-     */
-    public function setTiles(Tile $tiles): Article
-    {
-        $this->tiles = $tiles;
-        return $this;
-    }
-
-    /**
      * @return string
      */
-    public function getBackgroundImage(): string
-    {
+    public function getBackgroundImage(): string {
         return $this->backgroundImage;
     }
 
@@ -206,8 +183,7 @@ class Article {
      * @param string $backgroundImage
      * @return Article
      */
-    public function setBackgroundImage(string $backgroundImage): Article
-    {
+    public function setBackgroundImage(string $backgroundImage): Article {
         $this->backgroundImage = $backgroundImage;
         return $this;
     }
@@ -215,8 +191,7 @@ class Article {
     /**
      * @return bool
      */
-    public function getHasBackground(): bool
-    {
+    public function getHasBackground(): bool {
         return $this->hasBackground;
     }
 
@@ -224,8 +199,7 @@ class Article {
      * @param bool $hasBackground
      * @return Article
      */
-    public function setHasBackground(bool $hasBackground): Article
-    {
+    public function setHasBackground(bool $hasBackground): Article {
         $this->hasBackground = $hasBackground;
         return $this;
     }

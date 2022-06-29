@@ -1,0 +1,10 @@
+{% extends "grid/base.html.twig" %}
+{% set css = "blog" %}
+
+{% block title %}{{ 'user.new'|trans }}{% endblock %}
+
+{% block maincontent %}
+    <h1>{{ 'user.new'|trans }}</h1>
+
+    {{ include('pages/register/_form.html.twig') }}
+{% endblock %}

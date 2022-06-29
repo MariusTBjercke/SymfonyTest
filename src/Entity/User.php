@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Blog\Post;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
@@ -10,8 +11,7 @@ use Doctrine\ORM\Mapping\OneToMany;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
-{
+class User {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +27,16 @@ class User
     /**
      * @Column(type="string", length=255)
      */
+    private string $firstname;
+
+    /**
+     * @Column(type="string", length=255)
+     */
+    private string $lastname;
+
+    /**
+     * @Column(type="string", length=255)
+     */
     private string $password;
 
     /**
@@ -37,12 +47,12 @@ class User
     /**
      * @OneToMany(targetEntity="\App\Entity\Forum\Post", mappedBy="author")
      */
-    private $forumPosts;
+    private mixed $forumPosts;
 
     /**
-     * @OneToMany(targetEntity="\App\Entity\Article", mappedBy="author")
+     * @OneToMany(targetEntity="\App\Entity\Blog\Post", mappedBy="author")
      */
-    private $articlePosts;
+    private mixed $blogPosts;
 
     /**
      * @Column(type="boolean", name="logged_in", options={"default": false})
@@ -57,10 +67,9 @@ class User
     /**
      * @Column(type="string", length=255, name="last_activity", nullable=true)
      */
-    private string $lastActivity;
+    private ?string $lastActivity;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
@@ -77,6 +86,38 @@ class User
      */
     public function setUsername(string $username): User {
         $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname(): string {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     * @return User
+     */
+    public function setFirstname(string $firstname): User {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname(): string {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     * @return User
+     */
+    public function setLastname(string $lastname): User {
+        $this->lastname = $lastname;
         return $this;
     }
 
@@ -131,16 +172,16 @@ class User
     /**
      * @return mixed
      */
-    public function getArticlePosts() {
-        return $this->articlePosts;
+    public function getBlogPosts(): mixed {
+        return $this->blogPosts;
     }
 
     /**
-     * @param mixed $articlePosts
+     * @param mixed $blogPosts
      * @return User
      */
-    public function setArticlePosts($articlePosts) {
-        $this->articlePosts = $articlePosts;
+    public function setBlogPosts(mixed $blogPosts): User {
+        $this->blogPosts = $blogPosts;
         return $this;
     }
 
@@ -177,9 +218,9 @@ class User
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLastActivity(): string {
+    public function getLastActivity(): ?string {
         return $this->lastActivity;
     }
 

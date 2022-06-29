@@ -21,6 +21,8 @@ final class CreateUserMessageHandler implements MessageHandlerInterface {
     public function __invoke(CreateUserMessage $message): bool {
         $user = (new User())
             ->setUsername($message->getUsername())
+            ->setFirstname($message->getFirstname())
+            ->setLastname($message->getLastname())
             ->setPassword($message->getPassword())
             ->setEmail($message->getEmail())
             ->setLoggedIn($message->isLoggedIn())

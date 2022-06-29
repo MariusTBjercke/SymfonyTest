@@ -22,14 +22,9 @@
 
 <main>
 
-    <article{% if css is defined %} class="{{ css }}"{% endif %} data-controller="hello">
+    <article{% if css is defined %} class="{{ css }}"{% endif %}>
         {% block maincontent %}
         {% endblock %}
-
-        <input type="text" data-hello-target="name">
-
-        <button data-action="click->hello#greet">click</button>
-
     </article>
 
 </main>
