@@ -7,32 +7,22 @@
 
     <div class="container">
         <div class="row">
-{#            {% if site.getAction == 'success' %}#}
-{#                <div class="col profile__login-success">#}
-{#                    <div class="profile__alert-wrapper">#}
-{#                        <div class="container">#}
-{#                            <div class="row">#}
-{#                                <div class="col">#}
-{#                                    <div class="alert alert-success" role="alert">Account was created!</div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endif %}#}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
         </div>
     </div>
+
+    {{ language }}
 
     <div class="container">
         <div class="row">
             <div class="col">
-                {{ message }}
+                {% if user is not null %} {{ user.username }} {% endif %}
             </div>
         </div>
     </div>
-
-{#    {{ site.renderPageTiles }}#}
-
-{#    {{ site.getUsers() }}#}
 
 {% endblock %}

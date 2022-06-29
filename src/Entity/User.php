@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use App\Entity\Blog\Post;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User {
+class User implements UserInterface, PasswordAuthenticatedUserInterface {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -68,6 +69,11 @@ class User {
      * @Column(type="string", length=255, name="last_activity", nullable=true)
      */
     private ?string $lastActivity;
+
+    /**
+     * @Column(type="json")
+     */
+    private array $roles = [];
 
     public function getId(): ?int {
         return $this->id;
@@ -231,5 +237,27 @@ class User {
     public function setLastActivity(string $lastActivity): User {
         $this->lastActivity = $lastActivity;
         return $this;
+    }
+
+    public function getRoles(): array {
+        $roles = $this->roles;
+
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function eraseCredentials() {
+        //
+    }
+
+    public function getUserIdentifier(): string {
+        return (string) $this->username;
     }
 }

@@ -1,5 +1,5 @@
 {% extends "grid/base.html.twig" %}
-{% set css = "register" %}
+{% set css = "login" %}
 
 {% block title %}{{ 'user.new'|trans }}{% endblock %}
 
@@ -14,9 +14,9 @@
                     </div>
                 {% endfor %}
 
-                <h1>{{ 'user.new'|trans }}</h1>
+                <h1>{{ 'login.title'|trans }}</h1>
 
-                {{ include('pages/register/_form.html.twig') }}
+                {{ include('pages/login/_form.html.twig') }}
             </div>
         </div>
     </div>

@@ -19,6 +19,18 @@ final class CreateUserMessageHandler implements MessageHandlerInterface {
     }
 
     public function __invoke(CreateUserMessage $message): bool {
+        // Return false if username or email already exists
+        $user = $this->userRepository->findByUsername($message->getUsername());
+        if ($user) {
+            return false;
+        }
+
+        $user = $this->userRepository->findByEmail($message->getEmail());
+        if ($user) {
+            return false;
+        }
+
+        // Create user
         $user = (new User())
             ->setUsername($message->getUsername())
             ->setFirstname($message->getFirstname())

@@ -7,5 +7,5 @@ return static function (FrameworkConfig $framework) {
     $framework
         ->translator()
         ->defaultPath('%kernel.project_dir%/translations')
-        ->fallbacks(['en']);
+        ->fallbacks(['no']);
 };

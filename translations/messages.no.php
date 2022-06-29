@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'navigation' => [
+        'home' => 'Hjem',
+        'blog' => 'Blogg',
+        'forum' => 'Forum',
+        'login' => 'Logg inn',
+        'logout' => 'Logg ut',
+    ],
+
     'user' => [
         'title' => 'Bruker',
         'new' => 'Ny bruker',
@@ -38,4 +46,15 @@ return [
             'close' => 'Lukk',
         ],
     ],
+
+    'login' => [
+        'title' => 'Logg inn',
+        'slug' => 'login',
+    ],
+
+    'Username' => 'Brukernavn',
+    'Password' => 'Passord',
+    'Firstname' => 'Fornavn',
+    'Lastname' => 'Etternavn',
+    'Email' => 'E-post',
 ];

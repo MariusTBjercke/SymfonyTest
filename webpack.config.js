@@ -15,10 +15,27 @@ Encore
   // only needed for CDN's or sub-directory deploy
   //.setManifestKeyPrefix('build/')
 
+  // Development only
+  .enableVersioning(Encore.isProduction())
+
   // TinyMCE
   .copyFiles({
     from: "node_modules/tinymce/skins",
     to: "skins/[path]/[name].[ext]",
+  })
+
+  // Images
+  .copyFiles({
+    from: "./assets/img",
+    to: "images/[path]/[name].[ext]",
+    // pattern: /\.(png|jpg|jpeg|gif|svg)$/,
+  })
+
+  // SVG
+  .copyFiles({
+    from: "./assets/svg",
+    to: "images/[path]/[name].[ext]",
+    // pattern: /\.(png|jpg|jpeg|gif|svg)$/,
   })
 
   /*

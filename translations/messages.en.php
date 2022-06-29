@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'navigation' => [
+        'home' => 'Home',
+        'blog' => 'Blog',
+        'forum' => 'Forum',
+        'login' => 'Login',
+        'logout' => 'Logout',
+    ],
+
     'user' => [
         'title' => 'User',
         'new' => 'New user',
@@ -38,4 +46,15 @@ return [
             'close' => 'Close',
         ],
     ],
+
+    'login' => [
+        'title' => 'Login',
+        'slug' => 'login',
+    ],
+
+    'Username' => 'Username',
+    'Password' => 'Password',
+    'Firstname' => 'Firstname',
+    'Lastname' => 'Lastname',
+    'Email' => 'Email',
 ];
