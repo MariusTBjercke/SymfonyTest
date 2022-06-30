@@ -35,4 +35,14 @@ class CreateUserRequest {
      * @var string
      */
     public string $email;
+
+    /**
+     * @var bool
+     */
+    public bool $loggedIn = false;
+
+    /**
+     * @var bool
+     */
+    public bool $isAdmin = false;
 }

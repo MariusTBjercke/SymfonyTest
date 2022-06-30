@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Exception\UserNotFoundException;
 use App\Exception\WrongPasswordException;
 use App\Form\UserType;
-use App\Message\CreateUserMessage;
-use App\Repository\UserRepository;
 use App\Request\CreateUserRequest;
 use App\Request\LoginRequest;
 use App\Service\CreateUserService;
@@ -15,7 +12,6 @@ use App\Service\LoginService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController {
@@ -23,8 +19,6 @@ class UserController extends AbstractController {
      * @Route("/register", name="user_new", methods={"GET", "POST"})
      */
     public function new(Request $request, CreateUserService $createUserService): Response {
-        $user = new User();
-
         $createUserRequest = new CreateUserRequest();
 
         $form = $this->createForm(UserType::class, $createUserRequest);
@@ -33,8 +27,13 @@ class UserController extends AbstractController {
         if ($form->isSubmitted() && $form->isValid()) {
             $result = $createUserService->createUser($createUserRequest);
 
-            if (!$result) {
-                $this->addFlash('error', 'Username or email already exists.');
+            if ($result === 'username') {
+                $this->addFlash('error', 'Username already exists.');
+                return $this->redirectToRoute('user_new');
+            }
+
+            if ($result === 'email') {
+                $this->addFlash('error', 'Email already exists.');
                 return $this->redirectToRoute('user_new');
             }
 
@@ -43,7 +42,6 @@ class UserController extends AbstractController {
         }
 
         return $this->renderForm('pages/register/new.html.twig', [
-            'user' => $user,
             'form' => $form,
         ]);
     }

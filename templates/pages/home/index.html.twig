@@ -15,11 +15,10 @@
         </div>
     </div>
 
-    {{ language }}
-
     <div class="container">
         <div class="row">
             <div class="col">
+                {{ languageCode }}
                 {% if user is not null %} {{ user.username }} {% endif %}
             </div>
         </div>

@@ -26,7 +26,7 @@ class HomeController extends AbstractController {
      */
     public function index(Request $request): Response {
         return $this->render('pages/home/index.html.twig', [
-            'language' => $request->getLocale(),
+            'languageCode' => $request->getLocale(),
         ]);
     }
 }

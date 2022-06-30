@@ -4,6 +4,8 @@ namespace App\MessageHandler;
 
 use App\Entity\User;
 use App\Event\UserCreatedEvent;
+use App\Exception\EmailAlreadyExistsException;
+use App\Exception\UsernameAlreadyExistsException;
 use App\Message\CreateUserMessage;
 use App\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -18,16 +20,22 @@ final class CreateUserMessageHandler implements MessageHandlerInterface {
         $this->dispatcher = $dispatcher;
     }
 
-    public function __invoke(CreateUserMessage $message): bool {
-        // Return false if username or email already exists
+    /**
+     * Create a new user.
+     *
+     * @param CreateUserMessage $message
+     * @return string|bool Return a string to indicate a failure or true to indicate success.
+     */
+    public function __invoke(CreateUserMessage $message): string|bool {
+        // Return string if username or email already exists
         $user = $this->userRepository->findByUsername($message->getUsername());
         if ($user) {
-            return false;
+            return 'username';
         }
 
         $user = $this->userRepository->findByEmail($message->getEmail());
         if ($user) {
-            return false;
+            return 'email';
         }
 
         // Create user

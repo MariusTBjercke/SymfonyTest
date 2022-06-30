@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Message\CreateUserMessage;
 use App\Request\CreateUserRequest;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\ErrorDetailsStamp;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class CreateUserService {
@@ -21,12 +22,11 @@ class CreateUserService {
             $request->lastname,
             $request->password,
             $request->email,
-            false,
-            false,
+            $request->loggedIn,
+            $request->isAdmin,
         );
         $envelope = $this->bus->dispatch($message);
 
-        $handledStamp = $envelope->last(HandledStamp::class);
-        return $handledStamp->getResult();
+        return $envelope->last(HandledStamp::class)->getResult();
     }
 }
