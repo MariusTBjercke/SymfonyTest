@@ -22,7 +22,7 @@
 
 <main>
 
-    <article{% if css is defined %} class="{{ css }}"{% endif %}>
+    <article{% if css is defined %} class="{{ css }}"{% endif %}{% if controller is defined %} data-controller="{{ controller }}"{% endif %}>
         {% block maincontent %}
         {% endblock %}
     </article>

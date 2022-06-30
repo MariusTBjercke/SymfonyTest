@@ -1,5 +1,6 @@
 {% extends "grid/base.html.twig" %}
 {% set css = "blog" %}
+{% set controller = "blog" %}
 
 {% block maincontent %}
 
@@ -9,6 +10,32 @@
                 <h1>{% trans %}blog.title{% endtrans %}</h1>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                {% if user is not null %}
+                    <button data-action="click->blog#newPost">Create new blog post</button>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="blog__new-post" data-blog-target="newPost">
+                    <div class="blog__new-post-title">New post</div>
+                    <div class="blog__new-post-input">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" data-blog-target="title">
+                    </div>
+                    <div class="blog__new-post-input">
+                        <label for="content">Content:</label>
+                        <textarea data-blog-target="content" id="content"></textarea>
+                    </div>
+                    <button data-action="click->blog#submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 {% endblock %}
