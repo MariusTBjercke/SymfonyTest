@@ -26,8 +26,9 @@ return [
         'latest' => 'Siste artikler',
         'no_posts' => 'Ingen artikler enda.',
         'new_post' => [
-            'new' => 'Ny artikkel',
+            'new' => 'Ny post',
             'title' => 'Tittel',
+            'content' => 'Innhold',
             'submit' => 'Send',
             'close' => 'Lukk',
         ],

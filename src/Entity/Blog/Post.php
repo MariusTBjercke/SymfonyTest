@@ -3,12 +3,13 @@
 namespace App\Entity\Blog;
 
 use App\Entity\User;
-use App\Repository\PostRepository;
+use App\Repository\BlogPostRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Entity(repositoryClass=PostRepository::class)
+ * @ORM\Entity(repositoryClass=BlogPostRepository::class)
  * @Table(name="blog_posts")
  */
 class Post {
@@ -17,43 +18,43 @@ class Post {
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $content;
+    private ?string $content;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $published;
+    private bool $published;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private ?DateTimeInterface $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
-    private $publishedAt;
+    private ?DateTimeInterface $publishedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="blogPosts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="blogPosts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $author;
+    private ?User $author;
 
     public function getId(): ?int {
         return $this->id;
@@ -89,31 +90,31 @@ class Post {
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface {
+    public function getCreatedAt(): ?DateTimeInterface {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self {
+    public function setCreatedAt(DateTimeInterface $createdAt): self {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface {
+    public function getUpdatedAt(): ?DateTimeInterface {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self {
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeImmutable {
+    public function getPublishedAt(): ?DateTimeInterface {
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeImmutable $publishedAt): self {
+    public function setPublishedAt(DateTimeInterface $publishedAt): self {
         $this->publishedAt = $publishedAt;
 
         return $this;

@@ -3,8 +3,6 @@
 @use "~@assets/scss/pages/home" as *;
 @use "~@assets/scss/pages/blog" as *;
 
-// Tiles
-
 // Components
 @use "~@assets/scss/components/header" as *;
 @use "~@assets/scss/components/footer" as *;
@@ -21,6 +19,9 @@
 @import "~bootstrap/scss/badge";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 body,
 html {
   margin: 0;
@@ -29,6 +30,7 @@ html {
   height: 100%;
   color: #000000;
   min-width: 300px;
+  font-family: "Open Sans", sans-serif;
 }
 
 body {

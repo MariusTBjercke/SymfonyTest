@@ -18,12 +18,6 @@ Encore
   // Development only
   .enableVersioning(Encore.isProduction())
 
-  // TinyMCE
-  .copyFiles({
-    from: "node_modules/tinymce/skins",
-    to: "skins/[path]/[name].[ext]",
-  })
-
   // Images
   .copyFiles({
     from: "./assets/img",
@@ -35,7 +29,7 @@ Encore
   .copyFiles({
     from: "./assets/svg",
     to: "images/[path]/[name].[ext]",
-    // pattern: /\.(png|jpg|jpeg|gif|svg)$/,
+    pattern: /\.(svg)$/,
   })
 
   /*
@@ -45,6 +39,19 @@ Encore
    * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
    */
   .addEntry("app", "./assets/app.js")
+
+  /*
+   * TINYMCE - START
+   */
+  .addStyleEntry("wysiwyg", "./assets/scss/wysiwyg.scss")
+
+  .copyFiles({
+    from: "node_modules/tinymce/skins",
+    to: "skins/[path]/[name].[ext]",
+  })
+  /*
+   * TINYMCE - END
+   */
 
   /*
    * ALIAS CONFIG

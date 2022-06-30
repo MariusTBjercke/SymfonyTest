@@ -1,6 +1,5 @@
 import { DOMReady } from "@assets/js/shared/domready";
 import { ajaxPostJson } from "@assets/js/functions/ajax";
-import { initTinyMCE } from "@assets/js/functions/tinymce";
 
 DOMReady(() => {
   const element = document.querySelector(".forum");
@@ -19,7 +18,7 @@ DOMReady(() => {
     }
 
     // Initialize TinyMCE editor.
-    const editor = initTinyMCE("#content");
+    // const editor = initWYSIWYG(contentInput);
 
     const newPostForm = element.querySelector(".forum__new-post-form");
     const toggleBtn = element.querySelector(".forum__new-post-btn");

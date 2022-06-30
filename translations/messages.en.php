@@ -26,8 +26,9 @@ return [
         'latest' => 'Latest articles',
         'no_posts' => 'No articles yet.',
         'new_post' => [
-            'new' => 'New article',
+            'new' => 'New post',
             'title' => 'Title',
+            'content' => 'Content',
             'submit' => 'Submit',
             'close' => 'Close',
         ],
