@@ -47,6 +47,10 @@ export default class extends Controller {
     if (data.success) {
       this.addPlaceholderPost(data.result);
 
+      // Reset the form
+      this.titleTarget.value = "";
+      tinymce.activeEditor.setContent("");
+
       this.close();
     }
   }
