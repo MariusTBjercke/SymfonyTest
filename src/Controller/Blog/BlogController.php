@@ -4,7 +4,9 @@ namespace App\Controller\Blog;
 
 use App\CQRS\Query\BlogPostsQuery;
 use App\Entity\User;
+use App\Form\Blog\BlogPostType;
 use App\Message\NewBlogPostMessage;
+use App\Request\NewBlogPostRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +31,11 @@ class BlogController extends AbstractController {
     public function index(BlogPostsQuery $blogPostsQuery): Response {
         $posts = $blogPostsQuery();
 
+        $newBlogPostRequest = new NewBlogPostRequest();
+        $form = $this->createForm(BlogPostType::class, $newBlogPostRequest);
+
         return $this->render('pages/blog/index.html.twig', [
+            'form' => $form->createView(),
             'posts' => $posts,
         ]);
     }
@@ -38,36 +44,40 @@ class BlogController extends AbstractController {
      * @Route("/post/new", name="blog_post_new", methods={"POST"})
      */
     public function newPost(Request $request): JsonResponse {
-        $title = $request->request->get('title');
-        $content = $request->request->get('content');
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(['error' => 'Not an AJAX request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $user = $request->getSession()->get('user');
 
         if (!$user instanceof User) {
             return new JsonResponse(
                 [
-                    'error' => 'You must be logged in to create a post.',
+                    'error' => 'You must be logged in to create a blog post.',
                 ],
                 Response::HTTP_UNAUTHORIZED,
             );
         }
 
-        $author = $user->getUsername();
+        $newBlogPostRequest = new NewBlogPostRequest();
+        $form = $this->createForm(BlogPostType::class, $newBlogPostRequest);
+        $form->handleRequest($request);
 
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(['error' => 'Not an AJAX request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message = new NewBlogPostMessage($newBlogPostRequest->title, $newBlogPostRequest->content);
+            $envelope = $this->bus->dispatch($message);
+            $handledStamp = $envelope->last(HandledStamp::class);
+            $result = $handledStamp->getResult();
         }
 
-        $message = new NewBlogPostMessage($title, $content);
-        $envelope = $this->bus->dispatch($message);
-        $handledStamp = $envelope->last(HandledStamp::class);
-        $result = $handledStamp->getResult();
+        $author = $user->getUsername();
 
         return new JsonResponse(
             [
-                'success' => (bool) $result,
+                'success' => $result ?? false,
                 'result' => [
-                    'title' => $title,
-                    'content' => $content,
+                    'title' => $newBlogPostRequest->title,
+                    'content' => $newBlogPostRequest->content,
                     'author' => $author,
                 ],
             ],

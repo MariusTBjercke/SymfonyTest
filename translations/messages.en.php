@@ -32,6 +32,12 @@ return [
             'submit' => 'Submit',
             'close' => 'Close',
         ],
+        'form' => [
+            'title' => 'Title',
+            'content' => 'Content',
+            'submit' => 'Submit',
+            'close' => 'Close',
+        ],
     ],
 
     'forum' => [
@@ -58,4 +64,9 @@ return [
     'Firstname' => 'Firstname',
     'Lastname' => 'Lastname',
     'Email' => 'Email',
+
+    'Title' => 'Title',
+    'Content' => 'Content',
+    'Submit' => 'Submit',
+    'Close' => 'Close',
 ];

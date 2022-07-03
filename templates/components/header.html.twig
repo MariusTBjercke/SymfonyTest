@@ -6,14 +6,15 @@
             </div>
             <div class="collapsed-navigation__menu-items">
                 <a href="{{ path('home_index') }}"
-                   class="collapsed-navigation__item">{% trans %}navigation.home{% endtrans %}</a>
+                   class="collapsed-navigation__item">{{ 'navigation.home'|trans }}</a>
                 <a href="{{ path('blog_index') }}"
-                   class="collapsed-navigation__item">{% trans %}navigation.blog{% endtrans %}</a>
-                <a href="{{ path('forum_index') }}"
-                   class="collapsed-navigation__item">{% trans %}navigation.forum{% endtrans %}</a>
+                   class="collapsed-navigation__item">{{ 'navigation.blog'|trans }}</a>
                 {% if user is null %}
                     <a href="{{ path('user_login') }}"
-                       class="collapsed-navigation__item">{% trans %}navigation.login{% endtrans %}</a>
+                       class="collapsed-navigation__item">{{ 'navigation.login'|trans }}</a>
+                    {% elseif user is not null %}
+                        <a href="{{ path('user_logout') }}"
+                           class="collapsed-navigation__item">{{ 'navigation.logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>
@@ -33,14 +34,15 @@
                 <div class="col-2 col-md-8">
                     <div class="navigation">
                         <a href="{{ path('home_index') }}"
-                           class="navigation__item">{% trans %}navigation.home{% endtrans %}</a>
+                           class="navigation__item">{{ 'navigation.home'|trans }}</a>
                         <a href="{{ path('blog_index') }}"
-                           class="navigation__item">{% trans %}navigation.blog{% endtrans %}</a>
-                        <a href="{{ path('forum_index') }}"
-                           class="navigation__item">{% trans %}navigation.forum{% endtrans %}</a>
+                           class="navigation__item">{{ 'navigation.blog'|trans }}</a>
                         {% if user is null %}
                             <a href="{{ path('user_login') }}"
-                               class="navigation__item">{% trans %}navigation.login{% endtrans %}</a>
+                               class="navigation__item">{{ 'navigation.login'|trans }}</a>
+                            {% elseif user is not null %}
+                                <a href="{{ path('user_logout') }}"
+                                   class="navigation__item">{{ 'navigation.logout'|trans }}</a>
                         {% endif %}
                     </div>
                     <div class="navigation-wrapper__bars">

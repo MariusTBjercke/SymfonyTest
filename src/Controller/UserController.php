@@ -74,4 +74,12 @@ class UserController extends AbstractController {
             'form' => $form,
         ]);
     }
+
+    /**
+     * @Route("/logout", name="user_logout", methods={"GET"})
+     */
+    public function logout(Request $request): Response {
+        $request->getSession()->invalidate();
+        return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
+    }
 }

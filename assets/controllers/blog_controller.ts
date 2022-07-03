@@ -19,19 +19,23 @@ export default class extends Controller {
       toolbar_mode: "floating",
       width: "100%",
     });
+    console.log(this.contentTarget);
   }
 
   newPost() {
     this.newPostTarget.classList.add("blog__new-post_show");
   }
 
-  async submit() {
-    const title = this.titleTarget.value;
-    const content = tinymce.activeEditor.getContent();
+  async submit(e) {
+    e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
+    const content = tinymce.activeEditor.getContent();
+    const form = this.newPostTarget.querySelector("form") as HTMLFormElement;
+
+    // Update the form with the new TinyMCE content
+    this.contentTarget.value = content;
+
+    const formData = new FormData(form);
 
     // Use X-Requested-With: XMLHttpRequest to prevent CSRF
     const response = await fetch("/blog/post/new", {
@@ -43,6 +47,10 @@ export default class extends Controller {
     });
 
     const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
 
     if (data.success) {
       this.addPlaceholderPost(data.result);
@@ -62,6 +70,7 @@ export default class extends Controller {
   addPlaceholderPost(result) {
     const dummy = this.postsContainerTarget.querySelectorAll(".blog__post")[0] as HTMLDivElement;
     const post = dummy.cloneNode(true) as HTMLDivElement;
+    const noPostsYetMessage = this.postsContainerTarget.querySelector(".blog__no-posts-yet");
     post.classList.remove("blog__post_hidden");
     if (post.hasAttribute("data-blog-target")) {
       post.removeAttribute("data-blog-target");
@@ -69,6 +78,11 @@ export default class extends Controller {
     post.querySelector(".blog__post-title").innerHTML = result.title;
     post.querySelector(".blog__post-content").innerHTML = result.content;
     post.querySelector(".blog__post-author").innerHTML = result.author;
+
+    // Remove the no posts yet message if it exists
+    if (noPostsYetMessage) {
+      noPostsYetMessage.remove();
+    }
 
     // Add the new post to top of the list
     this.postsContainerTarget.prepend(post);

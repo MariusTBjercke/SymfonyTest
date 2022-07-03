@@ -32,6 +32,12 @@ return [
             'submit' => 'Send',
             'close' => 'Lukk',
         ],
+        'form' => [
+            'title' => 'Tittel',
+            'content' => 'Innhold',
+            'submit' => 'Send',
+            'close' => 'Lukk',
+        ],
     ],
 
     'forum' => [
@@ -58,4 +64,9 @@ return [
     'Firstname' => 'Fornavn',
     'Lastname' => 'Etternavn',
     'Email' => 'E-post',
+
+    'Title' => 'Tittel',
+    'Content' => 'Innhold',
+    'Submit' => 'Send',
+    'Close' => 'Lukk',
 ];
