@@ -10,14 +10,21 @@ use App\Message\CreateUserMessage;
 use App\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class CreateUserMessageHandler implements MessageHandlerInterface {
     private UserRepository $userRepository;
     private EventDispatcherInterface $dispatcher;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(UserRepository $repository, EventDispatcherInterface $dispatcher) {
+    public function __construct(
+        UserRepository $repository,
+        EventDispatcherInterface $dispatcher,
+        UserPasswordHasherInterface $passwordHasher,
+    ) {
         $this->userRepository = $repository;
         $this->dispatcher = $dispatcher;
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -43,10 +50,16 @@ final class CreateUserMessageHandler implements MessageHandlerInterface {
             ->setUsername($message->getUsername())
             ->setFirstname($message->getFirstname())
             ->setLastname($message->getLastname())
-            ->setPassword($message->getPassword())
             ->setEmail($message->getEmail())
             ->setLoggedIn($message->isLoggedIn())
             ->setIsAdmin($message->isAdmin());
+
+        $plainTextPassword = $message->getPassword();
+
+        // Hash the password
+        $hashedPassword = $this->passwordHasher->hashPassword($user, $plainTextPassword);
+
+        $user->setPassword($hashedPassword);
 
         $this->userRepository->add($user, true);
 

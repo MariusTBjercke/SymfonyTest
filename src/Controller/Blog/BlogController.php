@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
 /**
@@ -24,12 +25,10 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 class BlogController extends AbstractController {
     private MessageBusInterface $bus;
     private RequestStack $requestStack;
-    private ?User $user;
 
     public function __construct(MessageBusInterface $bus, RequestStack $requestStack) {
         $this->bus = $bus;
         $this->requestStack = $requestStack;
-        $this->user = $this->requestStack->getSession()->get('user');
     }
 
     /**
@@ -59,7 +58,9 @@ class BlogController extends AbstractController {
             return new JsonResponse(['serverError' => 'Not an AJAX request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        if (!$this->user instanceof User) {
+        dump($this->getUser());
+
+        if ($this->getUser() === null) {
             return new JsonResponse(
                 [
                     'error' => 'You must be logged in to create a blog post.',
@@ -96,7 +97,7 @@ class BlogController extends AbstractController {
                     ? [
                         'title' => $newBlogPostRequest->title,
                         'content' => $newBlogPostRequest->content,
-                        'author' => $this->user->getUsername(),
+                        'author' => $this->getUser()->getUsername(),
                     ]
                     : [
                         'errors' => $errors ?? [],

@@ -40,8 +40,6 @@ class AjaxFormErrorHandler {
             }
         }
 
-        dump($this->errors);
-
         return $this->errors;
     }
 }

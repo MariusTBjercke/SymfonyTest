@@ -7,9 +7,23 @@ use Symfony\Config\SecurityConfig;
 return static function (SecurityConfig $security) {
     $security->passwordHasher(PasswordAuthenticatedUserInterface::class, 'auto');
 
-    $security->firewall('dev');
+    $devFirewall = $security->firewall('dev');
 
-    $security->firewall('main');
+    $devFirewall
+        ->formLogin()
+        ->loginPath('user_login')
+        ->checkPath('user_login');
+
+    $devFirewall->logout()->path('user_logout');
+
+    $mainFirewall = $security->firewall('main');
+
+    $mainFirewall
+        ->formLogin()
+        ->loginPath('user_login')
+        ->checkPath('user_login');
+
+    $mainFirewall->logout()->path('user_logout');
 
     $security
         ->provider('app_user_provider')

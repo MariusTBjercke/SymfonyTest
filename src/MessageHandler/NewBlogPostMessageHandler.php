@@ -11,22 +11,16 @@ use DateTime;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Security\Core\Security;
 
 final class NewBlogPostMessageHandler implements MessageHandlerInterface {
     private BlogPostRepository $postRepository;
-    private EventDispatcherInterface $dispatcher;
-    private RequestStack $requestStack;
+    private Security $security;
     private UserRepository $userRepository;
 
-    public function __construct(
-        BlogPostRepository $repository,
-        EventDispatcherInterface $dispatcher,
-        RequestStack $requestStack,
-        UserRepository $userRepository,
-    ) {
+    public function __construct(BlogPostRepository $repository, Security $security, UserRepository $userRepository) {
         $this->postRepository = $repository;
-        $this->dispatcher = $dispatcher;
-        $this->requestStack = $requestStack;
+        $this->security = $security;
         $this->userRepository = $userRepository;
     }
 
@@ -37,13 +31,9 @@ final class NewBlogPostMessageHandler implements MessageHandlerInterface {
      * @return bool Return true if the blog post was created.
      */
     public function __invoke(NewBlogPostMessage $message): bool {
-        $sessionUser = $this->requestStack->getSession()->get('user');
+        $user = $this->security->getUser();
 
-        if (!$sessionUser instanceof User) {
-            return false;
-        }
-
-        $user = $this->userRepository->findByIdOrThrow($sessionUser->getId());
+        $user = $this->userRepository->findByIdOrThrow($user->getId());
 
         // Create blog post
         $post = (new Post())

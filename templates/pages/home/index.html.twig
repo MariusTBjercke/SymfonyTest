@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col">
                 {{ languageCode }}
-                {% if user is not null %} {{ user.username }} {% endif %}
+                {% if app.user is not null %} {{ app.user.username }} {% endif %}
             </div>
         </div>
     </div>

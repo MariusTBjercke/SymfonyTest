@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController {
     /**
@@ -49,37 +50,19 @@ class UserController extends AbstractController {
     /**
      * @Route("/login", name="user_login", methods={"GET", "POST"})
      */
-    public function login(Request $request, LoginService $loginService): Response {
-        $loginRequest = new LoginRequest();
-
-        $form = $this->createFormBuilder($loginRequest)
-            ->add('username')
-            ->add('password')
-            ->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $user = $loginService->login($loginRequest);
-            } catch (WrongPasswordException | UserNotFoundException $e) {
-                $this->addFlash('error', $e->getMessage());
-                return $this->redirectToRoute('user_login');
-            }
-
-            $this->addFlash('success', 'Login successful.');
-            return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
-        }
+    public function login(AuthenticationUtils $authenticationUtils): Response {
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->renderForm('pages/login/index.html.twig', [
-            'form' => $form,
+            'last_username' => $lastUsername,
+            'error' => $error,
         ]);
     }
 
     /**
      * @Route("/logout", name="user_logout", methods={"GET"})
      */
-    public function logout(Request $request): Response {
-        $request->getSession()->invalidate();
-        return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
+    public function logout(): void {
     }
 }

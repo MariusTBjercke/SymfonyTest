@@ -51,9 +51,16 @@ nav {
 
     &__right-links {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 5px;
+
+      a {
+        display: inherit;
+        align-items: inherit;
+        justify-content: inherit;
+        gap: inherit;
+      }
     }
   }
 

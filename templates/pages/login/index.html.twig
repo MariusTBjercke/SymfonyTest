@@ -8,15 +8,25 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                {% for message in app.flashes('error') %}
+                {% if error %}
                     <div class="alert alert-danger">
-                        {{ message }}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
                     </div>
-                {% endfor %}
+                {% endif %}
 
                 <h1>{{ 'login.title'|trans }}</h1>
 
-                {{ include('pages/login/_form.html.twig') }}
+                <form action="{{ path('user_login') }}" method="post">
+                    <label for="username">{{ 'Username'|trans }}:</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+                    <label for="password">{{ 'Password'|trans }}:</label>
+                    <input type="password" id="password" name="_password">
+
+                    <input type="hidden" name="_target_path" value="/home">
+
+                    <button class="btn" type="submit">{{ 'navigation.login'|trans }}</button>
+                </form>
             </div>
         </div>
     </div>

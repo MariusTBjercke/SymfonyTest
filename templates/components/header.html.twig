@@ -9,13 +9,14 @@
                    class="collapsed-navigation__item">{{ 'navigation.home'|trans }}</a>
                 <a href="{{ path('blog_index') }}"
                    class="collapsed-navigation__item">{{ 'navigation.blog'|trans }}</a>
-                {% if user is null %}
+                {% if app.user is null %}
                     <a href="{{ path('user_login') }}"
                        class="collapsed-navigation__item">{{ 'navigation.login'|trans }}</a>
-                    {% elseif user is not null %}
-                        <a href="{{ path('user_logout') }}"
-                           class="collapsed-navigation__item">{{ 'navigation.logout'|trans }}</a>
+                {% elseif app.user %}
+                    <a href="{{ path('user_logout') }}"
+                       class="collapsed-navigation__item">{{ 'navigation.logout'|trans }}</a>
                 {% endif %}
+
             </div>
         </div>
     </div>
@@ -23,6 +24,13 @@
         <div class="top-bar">
             <div class="container">
                 <div class="row">
+                    <div class="col">
+                        <div class="top-bar__right-links">
+                            {% if app.user %}
+                                <a href="{{ path('homepage') }}">{{ app.user.username }}<span class="material-icons">account_circle</span></a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,12 +45,12 @@
                            class="navigation__item">{{ 'navigation.home'|trans }}</a>
                         <a href="{{ path('blog_index') }}"
                            class="navigation__item">{{ 'navigation.blog'|trans }}</a>
-                        {% if user is null %}
+                        {% if app.user is null %}
                             <a href="{{ path('user_login') }}"
                                class="navigation__item">{{ 'navigation.login'|trans }}</a>
-                            {% elseif user is not null %}
-                                <a href="{{ path('user_logout') }}"
-                                   class="navigation__item">{{ 'navigation.logout'|trans }}</a>
+                        {% elseif app.user %}
+                            <a href="{{ path('user_logout') }}"
+                               class="navigation__item">{{ 'navigation.logout'|trans }}</a>
                         {% endif %}
                     </div>
                     <div class="navigation-wrapper__bars">
