@@ -60,4 +60,10 @@
       gap: 10px;
     }
   }
+
+  &__error {
+    color: #cb1414;
+    font-weight: bold;
+    font-size: 0.8em;
+  }
 }

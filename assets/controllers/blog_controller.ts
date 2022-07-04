@@ -2,13 +2,14 @@ import { Controller } from "@hotwired/stimulus";
 import tinymce from "@assets/js/functions/tinymce";
 
 export default class extends Controller {
-  static targets = ["title", "content", "newPost", "postsContainer"];
+  static targets = ["title", "content", "newPost", "postsContainer", "form"];
   private editor: any;
 
   titleTarget: HTMLInputElement;
   contentTarget: any;
   newPostTarget: HTMLDivElement;
   postsContainerTarget: HTMLDivElement;
+  formTarget: HTMLFormElement;
 
   connect() {
     this.editor = tinymce.init({
@@ -19,7 +20,6 @@ export default class extends Controller {
       toolbar_mode: "floating",
       width: "100%",
     });
-    console.log(this.contentTarget);
   }
 
   newPost() {
@@ -29,13 +29,10 @@ export default class extends Controller {
   async submit(e) {
     e.preventDefault();
 
-    const content = tinymce.activeEditor.getContent();
-    const form = this.newPostTarget.querySelector("form") as HTMLFormElement;
+    // Update the form with the new WYSIWYG content
+    this.contentTarget.value = tinymce.activeEditor.getContent();
 
-    // Update the form with the new TinyMCE content
-    this.contentTarget.value = content;
-
-    const formData = new FormData(form);
+    const formData = new FormData(this.formTarget);
 
     // Use X-Requested-With: XMLHttpRequest to prevent CSRF
     const response = await fetch("/blog/post/new", {
@@ -48,8 +45,28 @@ export default class extends Controller {
 
     const data = await response.json();
 
-    if (data.error) {
-      throw new Error(data.error);
+    if (data.serverError) {
+      throw new Error(data.serverError);
+    }
+
+    // Remove all existing errors
+    this.formTarget.querySelectorAll(".blog__error").forEach((error) => {
+      error.remove();
+    });
+
+    if (!data.success) {
+      data.errors.forEach((error) => {
+        const inputDiv = this.formTarget.querySelector(`[name="blog_post[${error.input}]"]`).parentElement
+          .parentElement;
+
+        const errorElement = document.createElement("div");
+        errorElement.classList.add("blog__error");
+        errorElement.innerHTML = error.message;
+
+        inputDiv.appendChild(errorElement);
+      });
+
+      return;
     }
 
     if (data.success) {

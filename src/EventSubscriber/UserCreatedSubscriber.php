@@ -11,6 +11,8 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 class UserCreatedSubscriber implements EventSubscriberInterface {
+    private MailerInterface $mailer;
+
     public function __construct(MailerInterface $mailer) {
         $this->mailer = $mailer;
     }
