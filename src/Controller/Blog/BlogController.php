@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\Blog\BlogPostType;
 use App\Message\NewBlogPostMessage;
 use App\Request\NewBlogPostRequest;
+use App\Shared\AjaxFormErrorHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 class BlogController extends AbstractController {
     private MessageBusInterface $bus;
     private RequestStack $requestStack;
-    private User $user;
+    private ?User $user;
 
     public function __construct(MessageBusInterface $bus, RequestStack $requestStack) {
         $this->bus = $bus;
@@ -82,36 +83,24 @@ class BlogController extends AbstractController {
         }
 
         if (!$form->isValid()) {
-            $errors = [];
-
-            foreach ($form->all() as $child) {
-                if (!$child->isValid()) {
-                    foreach ($child->getErrors() as $error) {
-                        $error = [
-                            'input' => $child->getName(),
-                            'message' => $error->getMessage(),
-                        ];
-
-                        $errors[] = $error;
-                    }
-                }
-            }
+            $errorHandler = new AjaxFormErrorHandler($form);
+            $errors = $errorHandler->getErrors();
         }
 
         $result = $result ?? false;
-        $errors = $errors ?? [];
 
         return new JsonResponse(
             [
                 'success' => $result,
-                'errors' => $errors,
                 'result' => $result
                     ? [
                         'title' => $newBlogPostRequest->title,
                         'content' => $newBlogPostRequest->content,
                         'author' => $this->user->getUsername(),
                     ]
-                    : false,
+                    : [
+                        'errors' => $errors ?? [],
+                    ],
             ],
             Response::HTTP_CREATED,
         );

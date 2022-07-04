@@ -55,7 +55,7 @@ export default class extends Controller {
     });
 
     if (!data.success) {
-      data.errors.forEach((error) => {
+      data.result.errors.forEach((error) => {
         const inputDiv = this.formTarget.querySelector(`[name="blog_post[${error.input}]"]`).parentElement
           .parentElement;
 
