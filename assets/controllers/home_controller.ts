@@ -1,6 +1,6 @@
-import { Controller } from "@hotwired/stimulus";
+import AbstractController from "@assets/controllers/AbstractController";
 
-export default class extends Controller {
+export default class extends AbstractController {
   static targets = [];
 
   connect() {

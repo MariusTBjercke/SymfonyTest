@@ -1,7 +1,7 @@
-import { Controller } from "@hotwired/stimulus";
 import tinymce from "@assets/js/functions/tinymce";
+import AbstractController from "@assets/controllers/AbstractController";
 
-export default class extends Controller {
+export default class extends AbstractController {
   static targets = ["title", "content", "newPost", "postsContainer", "form"];
   private editor: any;
 

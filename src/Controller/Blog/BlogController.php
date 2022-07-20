@@ -71,7 +71,7 @@ class BlogController extends AbstractController {
 
         $newBlogPostRequest = new NewBlogPostRequest();
 
-        // Add data attribute to form so that we can target it in the JS.
+        // Add data attribute to form so that we can target it with JS.
         $form = $this->createForm(BlogPostType::class, $newBlogPostRequest);
 
         $form->handleRequest($request);

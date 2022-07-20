@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             {% for message in app.flashes('success') %}
-                <div class="alert alert-success">
+                <div class="alert alert-success" data-controller="alert">
                     {{ message }}
                 </div>
             {% endfor %}
